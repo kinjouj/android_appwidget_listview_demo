@@ -6,9 +6,12 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 public class SampleWidgetProvider extends AppWidgetProvider {
+
+    private static final String TAG = SampleWidgetProvider.class.getName();
 
     private static final String ACTION_CLICK =
         "net.kinjouj.test.android_appwidget_listview_demo.ACTION_CLICK";
@@ -18,10 +21,12 @@ public class SampleWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context ctx, AppWidgetManager manager, int[] appWidgetIds) {
+        Log.v(TAG, "onUpdate");
+
         super.onUpdate(ctx, manager, appWidgetIds);
 
         for(int appWidgetId : appWidgetIds) {
-            Intent remoteViewsFactoryIntent = new Intent(ctx, SampleWidgetService.class);
+            Intent remoteViewsFactoryIntent = new Intent(ctx, SampleWidgetService_.class);
 
             RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.widget_layout);
             rv.setRemoteAdapter(R.id.listView, remoteViewsFactoryIntent);
@@ -35,6 +40,8 @@ public class SampleWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
+        Log.v(TAG, "onReceive");
+
         super.onReceive(ctx, intent);
 
         if(ACTION_CLICK.equals(intent.getAction())) {
